@@ -5,12 +5,12 @@ import mongoose from 'mongoose';
 
 const router = express.Router();
 
-// POST /api/bookings - Create a new booking
+// Create a new booking
 router.post('/', async (req: Request, res: Response) => {
   try {
     const { experienceId, date, slotId, numberOfPeople, customerInfo, promoCode } = req.body;
 
-    // Validation
+    // Basic validation
     if (!experienceId || !date || !slotId || !numberOfPeople || !customerInfo) {
       return res.status(400).json({ 
         success: false,
@@ -18,7 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Validate customer info
+    // Check customer info is complete
     if (!customerInfo.firstName || !customerInfo.lastName || !customerInfo.email || !customerInfo.phone) {
       return res.status(400).json({ 
         success: false,
@@ -26,7 +26,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Find the experience
+    // Make sure the experience exists
     const experience = await Experience.findById(experienceId);
     if (!experience) {
       return res.status(404).json({ 
@@ -35,7 +35,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Find the date and slot
+    // Find the specific date and slot
     const dateData = experience.availableDates.find(d => d.date === date);
     if (!dateData) {
       return res.status(400).json({ 
@@ -52,7 +52,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Check availability
+    // Check if there are enough spots left
     if (slot.availableSpots < numberOfPeople) {
       return res.status(400).json({ 
         success: false,
@@ -60,10 +60,11 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Calculate pricing
+    // Calculate the total price
     let totalAmount = slot.price * numberOfPeople;
     let discountAmount = 0;
 
+    // Apply promo code if provided
     if (promoCode) {
       const promoResult = validatePromoCode(promoCode, totalAmount);
       if (promoResult.valid) {
@@ -73,10 +74,10 @@ router.post('/', async (req: Request, res: Response) => {
 
     const finalAmount = totalAmount - discountAmount;
 
-    // Generate booking ID
+    // Generate a unique booking ID
     const bookingId = `BK${Date.now()}${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
-    // Create booking
+    // Save the booking
     const booking = new Booking({
       experienceId: new mongoose.Types.ObjectId(experienceId),
       date,
@@ -93,7 +94,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     await booking.save();
 
-    // Update slot availability
+    // Update available spots
     slot.availableSpots -= numberOfPeople;
     await experience.save();
 
@@ -114,8 +115,9 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-// Helper function to validate promo codes
+// Simple promo code validator
 function validatePromoCode(code: string, amount: number) {
+  // Hardcoded promo codes - in production you'd want these in the database
   const promoCodes: { [key: string]: { type: 'percentage' | 'fixed', value: number } } = {
     'SAVE10': { type: 'percentage', value: 10 },
     'FLAT100': { type: 'fixed', value: 100 },

@@ -12,6 +12,7 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
+          {/* Main app routes */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/experience/:id" element={<Details />} />

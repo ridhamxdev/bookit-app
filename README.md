@@ -1,288 +1,170 @@
-# BookIt: Experiences & Slots
+# Highway Delite - Travel Experience Booking Platform
 
-A full-stack web application for booking travel experiences with slot management. Built with React + TypeScript + TailwindCSS on the frontend and Node.js + Express + MongoDB on the backend.
+Hey! This is a booking platform for travel experiences across India. Built it as part of a fullstack assignment.
 
-## 🌟 Features
+## What's This?
 
-- **Browse Experiences**: Explore curated travel experiences with detailed information
-- **Slot Booking System**: Select dates and time slots with real-time availability
-- **User-Friendly Checkout**: Streamlined booking process with form validation
-- **Promo Code Support**: Apply discount codes for special offers
-- **Responsive Design**: Mobile-first design that works on all devices
-- **Booking Confirmation**: Detailed confirmation with booking ID
+It's a web app where you can browse different travel experiences (kayaking, sunrise treks, etc.), pick a date and time slot, and book them. Pretty straightforward stuff.
 
-## 🚀 Live Demo
+The frontend is React with TypeScript and TailwindCSS, backend is Node.js with Express and MongoDB. Everything works end-to-end.
 
-- **Frontend**: [Deployed on Vercel]
-- **Backend API**: [Deployed on Render/Railway]
-- **GitHub Repository**: [Your Repository URL]
+## Quick Setup
 
-## 📋 Tech Stack
-
-### Frontend
-- React 18 with TypeScript
-- Vite (build tool)
-- TailwindCSS (styling)
-- React Router (navigation)
-- Axios (API calls)
-- date-fns (date formatting)
-
-### Backend
-- Node.js with Express
-- TypeScript
-- MongoDB with Mongoose
-- CORS enabled
-- RESTful API architecture
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
+**You'll need:**
 - Node.js (v16 or higher)
-- MongoDB (local or Atlas account)
-- npm or yarn
+- MongoDB (either local or a free Atlas account)
 
-### Clone the Repository
+**Getting it running:**
+
 ```bash
-git clone <your-repository-url>
+# Clone and get into the folder
+git clone <your-repo-url>
 cd bookit-app
-```
 
-### Backend Setup
-
-1. Navigate to backend directory:
-```bash
+# Backend setup
 cd backend
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Create `.env` file in the backend directory:
-```env
+Create a `.env` file in the backend folder:
+```
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/bookit
 NODE_ENV=development
 ```
 
-For MongoDB Atlas (cloud):
-```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/bookit?retryWrites=true&w=majority
-```
+If you're using MongoDB Atlas instead of local, just swap the MONGODB_URI with your connection string.
 
-4. Seed the database with sample data:
 ```bash
+# Add some sample data
 npm run seed
-```
 
-5. Start the development server:
-```bash
+# Start the backend
 npm run dev
 ```
 
-Backend will run on `http://localhost:5000`
+Open a new terminal for the frontend:
 
-### Frontend Setup
-
-1. Navigate to frontend directory:
 ```bash
 cd frontend
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Create `.env.local` file in the frontend directory:
-```env
+Create `.env.local` in the frontend folder:
+```
 VITE_API_URL=http://localhost:5000/api
 ```
 
-For production:
-```env
-VITE_API_URL=https://your-backend-url.com/api
-```
-
-4. Start the development server:
 ```bash
+# Start it up
 npm run dev
 ```
 
-Frontend will run on `http://localhost:5173`
+That's it. Go to http://localhost:5173 and you should see everything working.
 
-## 📁 Project Structure
+## How It Works
+
+**Home Page** - Shows all the experiences in a grid. There's a search bar if you want to find something specific.
+
+**Details Page** - Click any experience to see more info. Pick a date, choose a time slot, adjust quantity with the +/- buttons.
+
+**Checkout** - Enter your name and email. You can add a promo code if you want a discount.
+
+**Confirmation** - Get a booking ID after confirming. Simple as that.
+
+## Promo Codes
+
+Try these if you want:
+- `SAVE10` - 10% off
+- `FLAT100` - ₹100 off
+- `WELCOME20` - 20% off
+- `FIRSTBOOK` - ₹50 off first booking
+
+## Tech Stack
+
+**Frontend:**
+- React 18 with TypeScript
+- Vite for fast builds
+- TailwindCSS for styling
+- React Router for pages
+- Axios for API calls
+
+**Backend:**
+- Node.js + Express
+- MongoDB with Mongoose
+- TypeScript
+- CORS enabled
+
+## API Endpoints
 
 ```
-bookit-app/
-├── frontend/
-│   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   │   ├── Header.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── Loading.tsx
-│   │   │   └── ExperienceCard.tsx
-│   │   ├── pages/             # Page components
-│   │   │   ├── Home.tsx       # List all experiences
-│   │   │   ├── Details.tsx    # Experience details & slot selection
-│   │   │   ├── Checkout.tsx   # Booking form
-│   │   │   └── Result.tsx     # Booking confirmation
-│   │   ├── services/          # API service layer
-│   │   │   └── api.ts
-│   │   ├── types/             # TypeScript interfaces
-│   │   │   └── index.ts
-│   │   ├── App.tsx            # Main app component
-│   │   ├── main.tsx           # Entry point
-│   │   └── index.css          # Global styles
-│   ├── public/
-│   ├── package.json
-│   ├── tailwind.config.js
-│   └── vite.config.ts
-│
-├── backend/
-│   ├── src/
-│   │   ├── models/            # Database models
-│   │   │   ├── Experience.ts
-│   │   │   └── Booking.ts
-│   │   ├── routes/            # API routes
-│   │   │   ├── experiences.ts
-│   │   │   ├── bookings.ts
-│   │   │   └── promo.ts
-│   │   ├── config/            # Configuration files
-│   │   │   └── database.ts
-│   │   ├── server.ts          # Express server
-│   │   └── seed.ts            # Database seeding script
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── nodemon.json
-│
-└── README.md
+GET  /api/experiences          - List all experiences
+GET  /api/experiences/:id      - Get one experience
+POST /api/bookings             - Create a booking
+POST /api/promo/validate       - Check if promo code works
 ```
 
-## 🔌 API Endpoints
+## Project Structure
 
-### Experiences
-- `GET /api/experiences` - Get all experiences
-- `GET /api/experiences/:id` - Get experience by ID
+```
+backend/
+  ├── src/
+  │   ├── models/       # MongoDB schemas
+  │   ├── routes/       # API routes
+  │   ├── config/       # Database connection
+  │   └── seed.ts       # Sample data
 
-### Bookings
-- `POST /api/bookings` - Create a new booking
+frontend/
+  ├── src/
+  │   ├── components/   # Reusable stuff
+  │   ├── pages/        # Main pages
+  │   ├── services/     # API calls
+  │   └── types/        # TypeScript types
+```
 
-### Promo Codes
-- `POST /api/promo/validate` - Validate promo code
+## Deploying This
 
-### Health Check
-- `GET /api/health` - API health status
+**Backend** - Works on Render, Railway, or Heroku. Just set your MongoDB URI in the environment variables.
 
-## 💳 Available Promo Codes
+**Frontend** - Vercel is easiest. Just point it to the frontend folder and set `VITE_API_URL` to your backend URL.
 
-- `SAVE10` - 10% discount
-- `FLAT100` - $100 flat discount
-- `WELCOME20` - 20% welcome discount
-- `FIRSTBOOK` - $50 first booking discount
+**Database** - MongoDB Atlas has a free tier that's perfect for this. Takes 5 minutes to set up.
 
-## 🎨 Design & UI
+## Features
 
-The application features:
-- Clean, modern interface
-- Responsive design (mobile, tablet, desktop)
-- Consistent color scheme and typography
-- Loading states and error handling
-- Form validation with clear feedback
-- Intuitive user flow
+- Search experiences by name or location
+- Real-time slot availability (shows how many spots left)
+- Sold out slots are disabled
+- Form validation on checkout
+- Promo code system
+- Responsive design works on mobile
+- Animations and hover effects throughout
 
-## 🚢 Deployment
+## A Few Notes
 
-### Frontend (Vercel)
+The Indian Rupee (₹) is used throughout since all the experiences are in India. Times are in IST.
 
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Set environment variable: `VITE_API_URL`
-4. Deploy
+I seeded the database with 8 experiences - kayaking in Udupi, Nandi Hills sunrise trek, coffee plantation tours in Coorg, etc. All using real locations and reasonable pricing.
 
-### Backend (Render/Railway)
+The slot system prevents double-booking. If someone books a slot before you, it'll show as sold out.
 
-#### Render
-1. Create new Web Service
-2. Connect GitHub repository
-3. Set build command: `npm run build`
-4. Set start command: `npm start`
-5. Add environment variables:
-   - `PORT` (automatically set by Render)
-   - `MONGODB_URI`
-   - `NODE_ENV=production`
+## Common Issues
 
-#### Railway
-1. Create new project
-2. Connect GitHub repository
-3. Add MongoDB plugin or use Atlas
-4. Set environment variables
-5. Deploy
+**MongoDB won't connect?**
+- If using local MongoDB, make sure the service is running
+- If using Atlas, check your IP whitelist and connection string
 
-### Database (MongoDB Atlas)
+**Port already in use?**
+- Backend: Change the PORT in .env
+- Frontend: Vite will suggest another port automatically
 
-1. Create free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Create database user
-3. Whitelist IP addresses (0.0.0.0/0 for all)
-4. Get connection string
-5. Use in `MONGODB_URI`
+**No experiences showing up?**
+- Run `npm run seed` in the backend folder again
 
-## 📝 Usage Flow
+## License
 
-1. **Home Page**: Browse available experiences with category filters
-2. **Details Page**: View experience details, select date and time slot
-3. **Checkout Page**: Enter customer information, apply promo code, review summary
-4. **Result Page**: View booking confirmation or error message
-
-## 🧪 Testing
-
-To test the application:
-
-1. Start both frontend and backend servers
-2. Visit `http://localhost:5173`
-3. Browse experiences
-4. Select an experience and choose a slot
-5. Fill in checkout form
-6. Apply promo code (try `SAVE10`)
-7. Complete booking
-8. Verify confirmation
-
-## 🐛 Troubleshooting
-
-### Backend won't start
-- Check MongoDB is running: `mongosh` or check Atlas connection
-- Verify `.env` file exists with correct `MONGODB_URI`
-- Run `npm run seed` to populate database
-
-### Frontend API errors
-- Ensure backend is running on correct port
-- Verify `VITE_API_URL` in `.env.local`
-- Check CORS is enabled on backend
-
-### Database connection errors
-- For local MongoDB: Start MongoDB service
-- For Atlas: Check IP whitelist and credentials
-
-## 🤝 Contributing
-
-This is a fullstack intern assignment project. Contributions and feedback are welcome!
-
-## 📄 License
-
-ISC
-
-## 👨‍💻 Author
-
-Created as part of a fullstack developer intern assignment.
-
-## 🙏 Acknowledgments
-
-- Images from Unsplash
-- Icons from Heroicons
-- Inspiration from leading travel booking platforms
+MIT - do whatever you want with it.
 
 ---
 
-**Note**: This is a demonstration project for educational purposes. All experiences and data are fictional.
-
+Built for a fullstack developer assignment. The design follows the Highway Delite branding with yellow accents and clean UI.

@@ -6,14 +6,12 @@ import experiencesRouter from './routes/experiences';
 import bookingsRouter from './routes/bookings';
 import promoRouter from './routes/promo';
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Basic middleware setup
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,24 +19,24 @@ app.use(express.urlencoded({ extended: true }));
 // Connect to MongoDB
 connectDB();
 
-// Routes
+// API routes
 app.use('/api/experiences', experiencesRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/promo', promoRouter);
 
-// Health check endpoint
+// Quick health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok', 
-    message: 'BookIt API is running',
+    message: 'Highway Delite API is running',
     timestamp: new Date().toISOString()
   });
 });
 
-// Root endpoint
+// Root endpoint - shows available routes
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Welcome to BookIt API',
+    message: 'Highway Delite Booking API',
     version: '1.0.0',
     endpoints: {
       experiences: '/api/experiences',
@@ -49,7 +47,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// Error handling middleware
+// Catch-all error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ 
@@ -58,7 +56,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`✓ Server running on port ${PORT}`);
   console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);

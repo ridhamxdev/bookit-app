@@ -70,19 +70,20 @@ const Details = () => {
   }
 
   const selectedDateData = experience.availableDates.find(d => d.date === selectedDate);
+  // Calculate pricing - 5.9% tax
   const subtotal = (selectedSlot?.price || experience.price) * numberOfPeople;
   const taxes = Math.round(subtotal * 0.059);
   const total = subtotal + taxes;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Back Button */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center text-gray-900 mb-6 font-medium"
+          className="flex items-center text-gray-900 mb-6 font-semibold hover:text-[#f0c419] transition-all duration-300 group"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Details
@@ -101,16 +102,16 @@ const Details = () => {
             </div>
 
             {/* Title */}
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <div className="animate-fade-in-up">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
                 {experience.title}
               </h1>
-              <p className="text-gray-700 leading-relaxed">{experience.description}</p>
+              <p className="text-gray-700 leading-relaxed text-base">{experience.description}</p>
             </div>
 
             {/* Choose Date */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4">Choose date</h2>
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <h2 className="text-xl font-bold mb-4 text-gray-900">Choose date</h2>
               <div className="flex flex-wrap gap-2">
                 {experience.availableDates.map((dateData) => (
                   <button
@@ -119,10 +120,10 @@ const Details = () => {
                       setSelectedDate(dateData.date);
                       setSelectedSlot(null);
                     }}
-                    className={`px-4 py-2 rounded-md font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 transform hover:scale-105 ${
                       selectedDate === dateData.date
-                        ? 'bg-[#F4D03F] text-black'
-                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                        ? 'bg-[#F4D03F] text-black shadow-md'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-gray-300'
                     }`}
                   >
                     {format(parseISO(dateData.date), 'MMM d')}
@@ -133,8 +134,8 @@ const Details = () => {
 
             {/* Choose Time */}
             {selectedDateData && (
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Choose time</h2>
+              <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <h2 className="text-xl font-bold mb-4 text-gray-900">Choose time</h2>
                 <div className="flex flex-wrap gap-2">
                   {selectedDateData.slots.map((slot) => {
                     const isSoldOut = slot.availableSpots < numberOfPeople;
@@ -143,26 +144,26 @@ const Details = () => {
                         key={slot._id}
                         onClick={() => !isSoldOut && setSelectedSlot(slot)}
                         disabled={isSoldOut}
-                        className={`px-4 py-2 rounded-md font-medium transition-colors relative ${
+                        className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 transform hover:scale-105 relative ${
                           selectedSlot?._id === slot._id
-                            ? 'bg-[#F4D03F] text-black'
+                            ? 'bg-[#F4D03F] text-black shadow-md'
                             : isSoldOut
                             ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-gray-300'
                         }`}
                       >
                         <span>{slot.time}</span>
                         {!isSoldOut && (
-                          <span className="ml-2 text-xs text-red-500">{slot.availableSpots} left</span>
+                          <span className="ml-2 text-xs font-bold text-red-500 animate-pulse-subtle">{slot.availableSpots} left</span>
                         )}
                         {isSoldOut && (
-                          <span className="ml-2 text-xs">Sold out</span>
+                          <span className="ml-2 text-xs font-medium">Sold out</span>
                         )}
                       </button>
                     );
                   })}
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 mt-2 font-medium">
                   All times are in IST (GMT +5:30)
                 </p>
               </div>
@@ -179,25 +180,25 @@ const Details = () => {
 
           {/* Booking Sidebar */}
           <div className="lg:col-span-1">
-            <div className="card p-6 sticky top-24 space-y-4">
+            <div className="card p-6 sticky top-24 space-y-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="flex items-center justify-between text-sm text-gray-700">
-                <span>Starts at</span>
-                <span className="font-semibold text-lg">₹{selectedSlot?.price || experience.price}</span>
+                <span className="font-medium">Starts at</span>
+                <span className="font-bold text-xl text-gray-900">₹{selectedSlot?.price || experience.price}</span>
               </div>
 
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-700">Quantity</span>
+                <span className="text-gray-700 font-medium">Quantity</span>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setNumberOfPeople(Math.max(1, numberOfPeople - 1))}
-                    className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100"
+                    className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition-all duration-300 hover:scale-110 active:scale-95 font-bold text-gray-700"
                   >
                     −
                   </button>
-                  <span className="font-medium">{numberOfPeople}</span>
+                  <span className="font-bold text-base">{numberOfPeople}</span>
                   <button
                     onClick={() => setNumberOfPeople(Math.min(8, numberOfPeople + 1))}
-                    className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100"
+                    className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition-all duration-300 hover:scale-110 active:scale-95 font-bold text-gray-700"
                   >
                     +
                   </button>
@@ -217,16 +218,16 @@ const Details = () => {
 
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-lg font-semibold">Total</span>
-                  <span className="text-lg font-semibold">₹{total}</span>
+                  <span className="text-xl font-bold text-gray-900">Total</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{total}</span>
                 </div>
 
                 <button
                   onClick={handleConfirm}
                   disabled={!selectedSlot}
-                  className={`w-full py-3 rounded-md font-medium transition-colors ${
+                  className={`w-full py-3 rounded-md font-bold text-base transition-all duration-300 ${
                     selectedSlot
-                      ? 'bg-[#F4D03F] hover:bg-[#f0c419] text-black'
+                      ? 'bg-[#F4D03F] hover:bg-[#f0c419] text-black transform hover:scale-105 hover:shadow-lg active:scale-95'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >

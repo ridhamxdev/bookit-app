@@ -57,12 +57,13 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       {/* Experiences Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {filteredExperiences.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">
+          <div className="text-center py-12 animate-fade-in">
+            <div className="text-6xl mb-4 animate-pulse-subtle">🔍</div>
+            <p className="text-gray-600 text-lg font-medium">
               {searchQuery
                 ? `No experiences found for "${searchQuery}"`
                 : 'No experiences found.'}
@@ -70,8 +71,17 @@ const Home = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredExperiences.map(experience => (
-              <ExperienceCard key={experience._id} experience={experience} />
+            {filteredExperiences.map((experience, index) => (
+              <div
+                key={experience._id}
+                className="animate-fade-in-up"
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                  opacity: 0,
+                }}
+              >
+                <ExperienceCard experience={experience} />
+              </div>
             ))}
           </div>
         )}

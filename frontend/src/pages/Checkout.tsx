@@ -30,8 +30,9 @@ const Checkout = () => {
     );
   }
 
+  // Price calculations
   const subtotal = selectedSlot.price * numberOfPeople;
-  const taxes = Math.round(subtotal * 0.059);
+  const taxes = Math.round(subtotal * 0.059); // 5.9% tax
   const total = subtotal + taxes - discount;
 
   const handleApplyPromo = async () => {
@@ -43,6 +44,7 @@ const Checkout = () => {
     try {
       setValidatingPromo(true);
       setPromoError('');
+      // Check if promo code is valid
       const result = await promoApi.validate(promoCode, subtotal);
 
       if (result.valid) {
@@ -85,6 +87,7 @@ const Checkout = () => {
     try {
       setSubmitting(true);
 
+      // Split full name into first and last
       const [firstName, ...lastNameParts] = fullName.trim().split(' ');
       const bookingData = {
         experienceId: experience._id,
@@ -127,14 +130,14 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-900 mb-6 font-medium"
+          className="flex items-center text-gray-900 mb-6 font-semibold hover:text-[#f0c419] transition-all duration-300 group"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Checkout
@@ -144,10 +147,10 @@ const Checkout = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Form Section */}
             <div className="lg:col-span-2">
-              <div className="card p-6 space-y-4">
+              <div className="card p-6 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Full name
                     </label>
                     <input
@@ -161,14 +164,14 @@ const Checkout = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Email
                     </label>
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your name"
+                      placeholder="Your email"
                       className="input-field"
                       required
                     />
@@ -176,7 +179,7 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Promo code
                   </label>
                   <div className="flex gap-2">
@@ -187,7 +190,7 @@ const Checkout = () => {
                         setPromoCode(e.target.value.toUpperCase());
                         setPromoError('');
                       }}
-                      placeholder=""
+                      placeholder="Enter promo code"
                       className="input-field flex-1"
                       disabled={promoApplied || validatingPromo}
                     />
@@ -195,7 +198,7 @@ const Checkout = () => {
                       type="button"
                       onClick={handleApplyPromo}
                       disabled={promoApplied || validatingPromo}
-                      className="px-6 py-2.5 bg-black text-white rounded-md font-medium hover:bg-gray-800 disabled:opacity-50"
+                      className="px-6 py-2.5 bg-black text-white rounded-md font-semibold hover:bg-gray-800 disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95"
                     >
                       Apply
                     </button>
@@ -225,47 +228,47 @@ const Checkout = () => {
 
             {/* Summary Sidebar */}
             <div className="lg:col-span-1">
-              <div className="card p-6 space-y-4">
+              <div className="card p-6 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Experience</span>
-                    <span className="font-medium">{experience.title}</span>
+                    <span className="text-gray-700 font-medium">Experience</span>
+                    <span className="font-semibold">{experience.title}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Date</span>
-                    <span className="font-medium">{selectedDate}</span>
+                    <span className="text-gray-700 font-medium">Date</span>
+                    <span className="font-semibold">{selectedDate}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Time</span>
-                    <span className="font-medium">{selectedSlot.time}</span>
+                    <span className="text-gray-700 font-medium">Time</span>
+                    <span className="font-semibold">{selectedSlot.time}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Qty</span>
-                    <span className="font-medium">{numberOfPeople}</span>
+                    <span className="text-gray-700 font-medium">Qty</span>
+                    <span className="font-semibold">{numberOfPeople}</span>
                   </div>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 space-y-2">
                   <div className="flex items-center justify-between text-sm text-gray-700">
-                    <span>Subtotal</span>
-                    <span>₹{subtotal}</span>
+                    <span className="font-medium">Subtotal</span>
+                    <span className="font-semibold">₹{subtotal}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm text-gray-700">
-                    <span>Taxes</span>
-                    <span>₹{taxes}</span>
+                    <span className="font-medium">Taxes</span>
+                    <span className="font-semibold">₹{taxes}</span>
                   </div>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-lg font-semibold">Total</span>
-                    <span className="text-lg font-semibold">₹{total}</span>
+                    <span className="text-xl font-bold text-gray-900">Total</span>
+                    <span className="text-2xl font-bold text-gray-900">₹{total}</span>
                   </div>
 
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-[#F4D03F] hover:bg-[#f0c419] text-black font-medium py-3 rounded-md transition-colors disabled:opacity-50"
+                    className="w-full bg-[#F4D03F] hover:bg-[#f0c419] text-black font-bold py-3 rounded-md transition-all duration-300 disabled:opacity-50 transform hover:scale-105 hover:shadow-lg active:scale-95"
                   >
                     {submitting ? 'Processing...' : 'Pay and Confirm'}
                   </button>
